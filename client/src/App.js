@@ -99,6 +99,7 @@ import { FacebookLogin } from 'react-facebook-login-component';
 	        <FacebookLogin socialId="1657533017874708"
 	                       language="en_US"
 	                       scope="public_profile,email"
+												 fields="name,email,picture"
 	                       responseHandler={this.responseFacebook}
 	                       xfbml={true}
 	                       version="v2.5"
