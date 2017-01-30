@@ -1,20 +1,26 @@
 import React, { Component } from 'react';
 import './App.css';
+import { FacebookLogin } from 'react-facebook-login-component';
 
-class App extends Component {
-	constructor(props) {
-    super(props);
+	class App extends Component {
+		constructor(props) {
+	    super(props);
 
-    this.state = {
-      agencies: [],
-      routes: [],
-      routeId: "",
-      searchTerm: "",
-      routeStops:null
+	    this.state = {
+	      agencies: [],
+	      routes: [],
+	      routeId: "",
+	      searchTerm: "",
+	      routeStops:null
 
-    };
+	    };
 
-    this.performAgencyAPIRequest();
+	    this.performAgencyAPIRequest();
+	  }
+
+  responseFacebook (response) {
+    console.log(response);
+    //anything else you want to do(save to localStorage)...
   }
 
   performAgencyAPIRequest() {
@@ -66,7 +72,7 @@ class App extends Component {
 	    }).catch(error => {
 	      this.setState({routes: null});
 	    });
-  	} 
+  	}
   }
 
   showRoute(e) {
@@ -77,19 +83,27 @@ class App extends Component {
   			this.setState({routeId: this.state.routes[i].id}, this.getRouteStop);
   		}
   	}
-  	
+
   }
 
   render() {
   	let listStops = [];
   	if (this.state.routeStops) {
-  		listStops = this.state.routeStops.references.stops.map((stop, index) => { 
+  		listStops = this.state.routeStops.references.stops.map((stop, index) => {
   			return <li key={index}> {stop.name} </li> });
   	}
 
     return (
       <div className="App">
         <div className="App-header">
+	        <FacebookLogin socialId="1657533017874708"
+	                       language="en_US"
+	                       scope="public_profile,email"
+	                       responseHandler={this.responseFacebook}
+	                       xfbml={true}
+	                       version="v2.5"
+	                       class="facebook-login"
+	                       buttonText="Login With Facebook"/>
           <h2>Title</h2>
         </div>
         <form className="submitForm" onSubmit={(e) => this.showRoute(e)}>
@@ -98,10 +112,10 @@ class App extends Component {
                  value={this.state.searchTerm}
               />
               <button type="submit">Submit</button>
-              
+
         </form>
         <div>
-        	<ul> 
+        	<ul>
           	{listStops}
           </ul>
       	</div>
@@ -109,5 +123,8 @@ class App extends Component {
     );
   }
 }
+
+
+
 
 export default App;
