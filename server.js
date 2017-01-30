@@ -37,21 +37,21 @@ app.use(flash());
 app.use('/auth', require('./controllers/auth'));
 
 app.get('/api/agencies-with-coverage', function(req, res) {
-	const url = 'http://api.pugetsound.onebusaway.org/api/where/agencies-with-coverage.json?key=TEST';
+	const url = 'http://api.pugetsound.onebusaway.org/api/where/agencies-with-coverage.json?key=83203046-c396-4ea2-ae27-72be1ed86993';
 	request(url, function(error, response, body) {
 		res.send(body);
 	})
 });
 
-app.get('/routes-for-agency/:id', function(req, res) {
-	const url = 'http://api.pugetsound.onebusaway.org/api/where/routes-for-agency/'+ req.params.id +'.json?key=TEST';
+app.get('/api/routes-for-agency/:id', function(req, res) {
+	const url = 'http://api.pugetsound.onebusaway.org/api/where/routes-for-agency/'+ req.params.id +'.json?key=83203046-c396-4ea2-ae27-72be1ed86993';
 	request(url, function(error, response, body) {
 		res.send(body);
 	})
 });
 
-app.get('/stops-for-route/:id', function(req, res) {
-	const url = 'http://api.pugetsound.onebusaway.org/api/where/stops-for-route/'+ req.params.id +'.json?key=TEST';
+app.get('/api/stops-for-route/:id', function(req, res) {
+	const url = 'http://api.pugetsound.onebusaway.org/api/where/stops-for-route/'+ req.params.id +'.json?key=83203046-c396-4ea2-ae27-72be1ed86993';
 	request(url, function(error, response, body) {
 		res.send(body);
 	})

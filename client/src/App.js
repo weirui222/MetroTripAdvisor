@@ -14,7 +14,6 @@ import { GoogleLogin } from 'react-google-login-component';
 	      routeId: "",
 	      searchTerm: "",
 	      routeStops:null
-
 	    };
 
 	    this.performAgencyAPIRequest();
@@ -47,12 +46,12 @@ import { GoogleLogin } from 'react-google-login-component';
   performRouteAPIRequests() {
   	for (var i = 0; i < this.state.agencies.length; i++) {
   		const agencyId = this.state.agencies[i].id;
-  		window.setTimeout(() => this.performRouteAPIRequest(agencyId), i*500);
+  		window.setTimeout(() => this.performRouteAPIRequest(agencyId), i*200);
   	}
   }
 
   performRouteAPIRequest(agencyId) {
-  	fetch(`/routes-for-agency/` + agencyId)
+  	fetch(`/api/routes-for-agency/` + agencyId)
 	    .then(response => {
 	      response.json().then(data => {
 	      	for (var j = 0; j < data.data.list.length; j++) {
@@ -71,7 +70,7 @@ import { GoogleLogin } from 'react-google-login-component';
 
   getRouteStop() {
   	if(this.state.routeId !== ""){
-  		fetch(`/stops-for-route/` + this.state.routeId)
+  		fetch(`/api/stops-for-route/` + this.state.routeId)
 	    .then(response => {
 	      response.json().then(data => {
 	      	console.log('stops',data);
@@ -96,7 +95,6 @@ import { GoogleLogin } from 'react-google-login-component';
 
   render() {
   	let listStops = [];
-  	console.log("route stops in render:", this.state.routeStops)
   	if (this.state.routeStops) {
   		listStops = this.state.routeStops.references.stops.map((stop, index) => {
   			return <li key={index}> {stop.name} </li>
@@ -111,14 +109,23 @@ import { GoogleLogin } from 'react-google-login-component';
     	lengthInfo = <p>route length: 0</p>
     }
 
-    let map = <span>no map</span>;
-    if (this.state.routeStops) {
-    	console.log("new map");
-    	map = React.createFactory(ShowMap)({stops: this.state.routeStops.references.stops, length: lengthInfo});
-
-    	// <ShowMap stops={} length={lengthInfo} />
-    }
-
+		let tepmarkers=[];
+  	if (this.state.routeStops) {
+			for (var i = 0; i < this.state.routeStops.references.stops.length; i++) {
+				let latitude = this.state.routeStops.references.stops[i].lat;
+				let longitude = this.state.routeStops.references.stops[i].lon;
+				let stop= {
+					position: {
+						lat: latitude, 
+						lng: longitude
+					},
+		  		key: this.state.routeStops.references.stops[i].name + i,
+		  		defaultAnimation: 2
+				};
+				tepmarkers.push(stop);
+			}
+		}
+		console.log('tepmarkers',tepmarkers);
     return (
       <div className="App">
         <div className="App-header">
@@ -193,7 +200,7 @@ import { GoogleLogin } from 'react-google-login-component';
           </ul>
       	</div>
       	
-      	{map}
+      	<ShowMap stops={tepmarkers} />
       </div>
     );
   }
