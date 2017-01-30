@@ -8,7 +8,21 @@ app.get('/api/agencies-with-coverage', function(req, res) {
 	request(url, function(error, response, body) {
 		res.send(body);
 	})
-});
+});	
+
+app.get('/routes-for-agency/:id', function(req, res) {
+	const url = 'http://api.pugetsound.onebusaway.org/api/where/routes-for-agency/'+ req.params.id +'.json?key=TEST';
+	request(url, function(error, response, body) {
+		res.send(body);
+	})
+});	
+
+app.get('/stops-for-route/:id', function(req, res) {
+	const url = 'http://api.pugetsound.onebusaway.org/api/where/stops-for-route/'+ req.params.id +'.json?key=TEST';
+	request(url, function(error, response, body) {
+		res.send(body);
+	})
+});	
 
 app.set('port', (process.env.PORT || 3001));
 
