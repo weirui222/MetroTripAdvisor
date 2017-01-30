@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import { FacebookLogin } from 'react-facebook-login-component';
+import { GoogleLogin } from 'react-google-login-component';
 
 	class App extends Component {
 		constructor(props) {
@@ -22,6 +23,13 @@ import { FacebookLogin } from 'react-facebook-login-component';
     console.log(response);
     //anything else you want to do(save to localStorage)...
   }
+
+	responseGoogle (googleUser) {
+    var id_token = googleUser.getAuthResponse().id_token;
+		console.log({accessToken: id_token});
+    //anything else you want to do(save to localStorage)...
+  }
+
 
   performAgencyAPIRequest() {
   	fetch(`/api/agencies-with-coverage`)
@@ -105,8 +113,16 @@ import { FacebookLogin } from 'react-facebook-login-component';
 	                       version="v2.5"
 	                       class="facebook-login"
 	                       buttonText="Login With Facebook"/>
+				</div>
+				<div>
+					<GoogleLogin socialId="21709892006-c0kl7vs3u1q4ue7nt5jbec70nvm4nuqt.apps.googleusercontent.com"
+			                      class="google-login"
+			                      scope="profile"
+														fields="name,email,picture"
+			                      responseHandler={this.responseGoogle}
+			                      buttonText="Login With Google"/>
+			       </div>
           <h2>Title</h2>
-        </div>
         <form className="submitForm" onSubmit={(e) => this.showRoute(e)}>
           <input placeholder="Enter the bus" className="inputField" type="text" required
           			 onChange={e => this.searchChange(e)}

@@ -16,6 +16,7 @@
     "express": "4.13.3",
     "react": "^15.4.2",
     "react-facebook-login-component": "^0.6.0",
+    "react-google-login-component": "^0.5.2",
     "request": "^2.79.0"
   },
   "scripts": {
