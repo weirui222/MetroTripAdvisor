@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import ShowMap from './showMap'
 import { FacebookLogin } from 'react-facebook-login-component';
 import { GoogleLogin } from 'react-google-login-component';
 
@@ -95,10 +96,28 @@ import { GoogleLogin } from 'react-google-login-component';
 
   render() {
   	let listStops = [];
+  	console.log("route stops in render:", this.state.routeStops)
   	if (this.state.routeStops) {
   		listStops = this.state.routeStops.references.stops.map((stop, index) => {
-  			return <li key={index}> {stop.name} </li> });
+  			return <li key={index}> {stop.name} </li>
+  		});
   	}
+
+  	let lengthInfo = null;
+  	if (this.state.routeStops) {
+  		console.log("routeStops:", this.state.routeStops)
+  		lengthInfo = <p>route length: {this.state.routeStops.references.stops.length}</p>
+    } else {
+    	lengthInfo = <p>route length: 0</p>
+    }
+
+    let map = <span>no map</span>;
+    if (this.state.routeStops) {
+    	console.log("new map");
+    	map = React.createFactory(ShowMap)({stops: this.state.routeStops.references.stops, length: lengthInfo});
+
+    	// <ShowMap stops={} length={lengthInfo} />
+    }
 
     return (
       <div className="App">
@@ -168,10 +187,13 @@ import { GoogleLogin } from 'react-google-login-component';
 
         </form>
         <div>
+        	{lengthInfo}
         	<ul>
           	{listStops}
           </ul>
       	</div>
+      	
+      	{map}
       </div>
     );
   }
