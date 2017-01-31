@@ -132,8 +132,6 @@ import { GoogleLogin } from 'react-google-login-component';
 			}
 
 		}
-		console.log('polyline',polyLines);
-		console.log('tepmarkers',tepmarkers);
     return (
       <div className="App">
         <div className="App-header">
@@ -155,7 +153,7 @@ import { GoogleLogin } from 'react-google-login-component';
 			                      responseHandler={this.responseGoogle}
 			                      buttonText="Login With Google"/>
 			 </div>
-				<a href="/auth/facebook" class="btn btn-primary">
+				<a href="http://localhost:3010/auth/facebook" class="btn btn-primary">
 		   		Login via Facebook
 		 		</a>
 				<h1> sign up </h1>

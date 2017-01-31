@@ -34,6 +34,7 @@ app.use(function(req, res, next) {
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
+
 app.use('/auth', require('./controllers/auth'));
 
 app.get('/api/agencies-with-coverage', function(req, res) {
