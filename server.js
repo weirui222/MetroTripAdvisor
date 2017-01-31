@@ -4,7 +4,7 @@ const request = require('request');
 const flash = require('connect-flash');
 const bodyParser = require("body-parser");
 const path = require('path');
-//const passport = require('./config/ppConfig');
+// const passport = require('./config/ppConfig');
 const isLoggedIn = require('./middleware/isLoggedIn');
 const moment = require('moment');
 const session = require('express-session');
@@ -31,10 +31,10 @@ app.use(function(req, res, next) {
   res.locals.moment = moment;
   next();
 });
-//app.use(passport.initialize());
-//app.use(passport.session());
-//app.use(flash());
-//app.use('/auth', require('./controllers/auth'));
+// app.use(passport.initialize());
+// app.use(passport.session());
+// app.use(flash());
+// app.use('/auth', require('./controllers/auth'));
 
 app.get('/api/agencies-with-coverage', function(req, res) {
 	const url = 'http://api.pugetsound.onebusaway.org/api/where/agencies-with-coverage.json?key=83203046-c396-4ea2-ae27-72be1ed86993';
