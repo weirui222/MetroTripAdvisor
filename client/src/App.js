@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
-import ShowMap from './showMap'
+import ShowMap from './showMap';
+import Polyline from "polyline";
 import { FacebookLogin } from 'react-facebook-login-component';
 import { GoogleLogin } from 'react-google-login-component';
 
@@ -110,6 +111,7 @@ import { GoogleLogin } from 'react-google-login-component';
     }
 
 		let tepmarkers=[];
+		let polyLines = [];
   	if (this.state.routeStops) {
 			for (var i = 0; i < this.state.routeStops.references.stops.length; i++) {
 				let latitude = this.state.routeStops.references.stops[i].lat;
@@ -124,7 +126,13 @@ import { GoogleLogin } from 'react-google-login-component';
 				};
 				tepmarkers.push(stop);
 			}
+			for (var j = 0; j < this.state.routeStops.entry.polylines.length; j++) {
+				let points = Polyline.decode(this.state.routeStops.entry.polylines[j].points);
+				polyLines.push(points);
+			}
+
 		}
+		console.log('polyline',polyLines);
 		console.log('tepmarkers',tepmarkers);
     return (
       <div className="App">
@@ -200,7 +208,7 @@ import { GoogleLogin } from 'react-google-login-component';
           </ul>
       	</div>
       	
-      	<ShowMap stops={tepmarkers} />
+      	<ShowMap stops={tepmarkers} polyLines={polyLines} />
       </div>
     );
   }

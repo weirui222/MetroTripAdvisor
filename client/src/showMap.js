@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { withGoogleMap, GoogleMap,Marker} from "react-google-maps";
+import { withGoogleMap, GoogleMap,Marker,Polyline} from "react-google-maps";
 import _ from "lodash";
-
 
 const GettingStartedGoogleMap = withGoogleMap(props => (
   <GoogleMap
@@ -16,6 +15,20 @@ const GettingStartedGoogleMap = withGoogleMap(props => (
         onRightClick={() => props.onMarkerRightClick(index)}
       />
     ))}
+
+    {
+    	props.polyLines.map((polyline, index) => {
+    		let path = [];
+    		for (var i = 0; i < polyline.length; i++) {
+    			path.push({lat:polyline[i][0], lng:polyline[i][1]});
+    		}
+
+    		return <Polyline key={index}
+							  strokeColor="#000"
+							  path={path} />
+    	})
+    }
+    
   </GoogleMap>
 ));
 
@@ -35,11 +48,15 @@ export default class ShowMap extends Component {
 			    mapElement={
 			      <div style={{ height: `500px` }} />
 			    }
+			    
 			    onMapLoad={_.noop}
 			    onMapClick={_.noop}
 			    markers={this.props.stops}
+			    polyLines={this.props.polyLines}
 			    onMarkerRightClick={_.noop}
 			  />
+
+
 			 </div>
     );
   }
