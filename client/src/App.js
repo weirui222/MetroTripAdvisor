@@ -5,6 +5,10 @@ import Polyline from "polyline";
 import { FacebookLogin } from 'react-facebook-login-component';
 import { GoogleLogin } from 'react-google-login-component';
 import Navbar from './Navbar';
+import Login from './Login';
+const Router = require('react-router').Router;
+const Route = require('react-router').Route;
+const browserHistory = require('react-router').browserHistory;
 
 	class App extends Component {
 		constructor(props) {
@@ -136,14 +140,17 @@ import Navbar from './Navbar';
     return (
       <div className="App">
       	<Navbar />
+				<Router history={browserHistory}>
+					<Navbar />
+					<Route path="/" />
+					<Route path="/Login" component={Login} />
+				</Router>
         <h2>Title</h2>
         <form className="submitForm" onSubmit={(e) => this.showRoute(e)}>
           <input placeholder="Enter the bus" className="inputField" type="text" required
           			 onChange={e => this.searchChange(e)}
-                 value={this.state.searchTerm}
-              />
-              <button type="submit">Submit</button>
-
+                 value={this.state.searchTerm} />
+          <button type="submit">Submit</button>
         </form>
         <div>
         	{lengthInfo}
@@ -151,7 +158,6 @@ import Navbar from './Navbar';
           	{listStops}
           </ul>
       	</div>
-
       	<ShowMap stops={tepmarkers} polyLines={polyLines} />
       </div>
     );

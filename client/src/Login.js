@@ -1,29 +1,12 @@
 import React, { Component } from 'react';
 import Navbar from './Navbar';
+const Link = require('react-router').Link;
+
 class Login extends Component {
  render() {
    return (
     <div>
      	<Navbar />
-     	<div className="App-header">
-	        <FacebookLogin socialId="1657533017874708"
-	                       language="en_US"
-	                       scope="public_profile,email"
-												 fields="name,email,picture"
-	                       responseHandler={this.responseFacebook}
-	                       xfbml={true}
-	                       version="v2.5"
-	                       class="facebook-login"
-	                       buttonText="Login With Facebook"/>
-			</div>
-			<div>
-					<GoogleLogin socialId="21709892006-c0kl7vs3u1q4ue7nt5jbec70nvm4nuqt.apps.googleusercontent.com"
-			                      class="google-login"
-			                      scope="profile"
-														fields="name,email,picture"
-			                      responseHandler={this.responseGoogle}
-			                      buttonText="Login With Google"/>
-			</div>
 			<a href="http://localhost:3010/auth/facebook" class="btn btn-primary">
 	   		Login via Facebook
 	 		</a>
