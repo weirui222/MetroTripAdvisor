@@ -11,6 +11,10 @@ router.get('/', function(req, res) {
     res.render('/');
 });
 
+router.get('/signup', function(req, res) {
+   res.render('./auth/signup');
+});
+
 router.post('/signup', function(req, res) {
 // find or create user profile
     db.user.findOrCreate({
@@ -37,6 +41,7 @@ router.post('/signup', function(req, res) {
             res.redirect('http://localhost:3000/');
         }
     }).catch(function(error) {
+    	  console.log("ERROR:", error);
         req.flash('error', error.message);
         res.redirect('http://localhost:3000/');
     });

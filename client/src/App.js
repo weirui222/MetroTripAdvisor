@@ -157,7 +157,7 @@ import { GoogleLogin } from 'react-google-login-component';
 		   		Login via Facebook
 		 		</a>
 				<h1> sign up </h1>
-				<form id="signUp" action="/auth/signup" method="POST">
+				<form id="signUp" action="http://localhost:3010/auth/signup" method="POST">
 				  <div className="form-group">
 				    <label for="authEmail">Email</label>
 				    <input id="authEmail" className="form-control" type="email" name="email" />
@@ -175,7 +175,7 @@ import { GoogleLogin } from 'react-google-login-component';
 					<input className="btn btn-primary" type="submit"/>
 				</form>
 					<h1> login </h1>
-					<form id="login" action="/auth/login" method="POST">
+					<form id="login" action="http://localhost:3010/auth/login" method="POST">
 						<div className="form-group">
 						  <label for="authEmail">Email</label>
 						  <input id="authEmail" className="form-control" type="email" name="email" />
