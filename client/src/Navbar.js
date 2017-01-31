@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class Navbar extends Component {
  render() {
    return (
-     <nav className="navbar navbar-default navbar-fixed-top">
+     <nav className="navbar navbar-default">
        <div className="container-fluid">
          <div className="navbar-header">
            <button type="button" className="navbar-toggle collapsed" data-toggle="collapse"  aria-expanded="false">
