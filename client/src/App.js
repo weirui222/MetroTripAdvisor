@@ -4,6 +4,7 @@ import ShowMap from './showMap';
 import Polyline from "polyline";
 import { FacebookLogin } from 'react-facebook-login-component';
 import { GoogleLogin } from 'react-google-login-component';
+import Navbar from './Navbar';
 
 	class App extends Component {
 		constructor(props) {
@@ -134,63 +135,8 @@ import { GoogleLogin } from 'react-google-login-component';
 		}
     return (
       <div className="App">
-        <div className="App-header">
-	        <FacebookLogin socialId="1657533017874708"
-	                       language="en_US"
-	                       scope="public_profile,email"
-												 fields="name,email,picture"
-	                       responseHandler={this.responseFacebook}
-	                       xfbml={true}
-	                       version="v2.5"
-	                       class="facebook-login"
-	                       buttonText="Login With Facebook"/>
-				</div>
-				<div>
-					<GoogleLogin socialId="21709892006-c0kl7vs3u1q4ue7nt5jbec70nvm4nuqt.apps.googleusercontent.com"
-			                      class="google-login"
-			                      scope="profile"
-														fields="name,email,picture"
-			                      responseHandler={this.responseGoogle}
-			                      buttonText="Login With Google"/>
-			 </div>
-				<a href="http://localhost:3010/auth/facebook" class="btn btn-primary">
-		   		Login via Facebook
-		 		</a>
-				<h1> sign up </h1>
-				<form id="signUp" action="http://localhost:3010/auth/signup" method="POST">
-				  <div className="form-group">
-				    <label for="authEmail">Email</label>
-				    <input id="authEmail" className="form-control" type="email" name="email" />
-				  </div>
-
-				  <div className="form-group">
-				    <label for="authName">Name</label>
-				    <input id="authName" className="form-control" type="text" name="name" />
-				  </div>
-
-				  <div class="form-group">
-				    <label for="authPassword">Password</label>
-				    <input id="authPassword" className="form-control" type="password" name="password" />
-				  </div>
-					<input className="btn btn-primary" type="submit"/>
-				</form>
-					<h1> login </h1>
-					<form id="login" action="http://localhost:3010/auth/login" method="POST">
-						<div className="form-group">
-						  <label for="authEmail">Email</label>
-						  <input id="authEmail" className="form-control" type="email" name="email" />
-						</div>
-
-						<div className="form-group">
-						  <label for="authPassword">Password</label>
-						  <input id="authPassword" className="form-control" type="password" name="password" />
-						</div>
-
-						<input className="btn btn-primary" type="submit" />
-					</form>
-
-
-          <h2>Title</h2>
+      	<Navbar />
+        <h2>Title</h2>
         <form className="submitForm" onSubmit={(e) => this.showRoute(e)}>
           <input placeholder="Enter the bus" className="inputField" type="text" required
           			 onChange={e => this.searchChange(e)}
