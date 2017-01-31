@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import './App.css';
 import ShowMap from './showMap';
 import Polyline from "polyline";
-import { FacebookLogin } from 'react-facebook-login-component';
-import { GoogleLogin } from 'react-google-login-component';
 import Navbar from './Navbar';
 import Login from './Login';
 const Router = require('react-router').Router;
