@@ -118,7 +118,7 @@ import { GoogleLogin } from 'react-google-login-component';
 				let longitude = this.state.routeStops.references.stops[i].lon;
 				let stop= {
 					position: {
-						lat: latitude, 
+						lat: latitude,
 						lng: longitude
 					},
 		  		key: this.state.routeStops.references.stops[i].name + i,
@@ -205,7 +205,7 @@ import { GoogleLogin } from 'react-google-login-component';
           	{listStops}
           </ul>
       	</div>
-      	
+
       	<ShowMap stops={tepmarkers} polyLines={polyLines} />
       </div>
     );
