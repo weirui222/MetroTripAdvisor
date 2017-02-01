@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withGoogleMap, GoogleMap,Marker,Polyline} from "react-google-maps";
+import { withGoogleMap, GoogleMap,Marker,Polyline,InfoWindow} from "react-google-maps";
 import _ from "lodash";
 
 const GettingStartedGoogleMap = withGoogleMap(props => (
@@ -11,9 +11,17 @@ const GettingStartedGoogleMap = withGoogleMap(props => (
   >
     {props.markers.map((marker, index) => (
       <Marker
-        {...marker}
+        position={marker.position}
+        showInfo={marker.showInfo}
+        onClick={() => props.onMarkerClick(marker)}
         onRightClick={() => props.onMarkerRightClick(index)}
-      />
+      >
+      	{marker.showInfo && (
+          <InfoWindow onCloseClick={() => props.onMarkerClose(marker)}>
+            <div>{marker.name}</div>
+          </InfoWindow>
+        )}
+      </Marker>
     ))}
 
     {
@@ -34,11 +42,6 @@ const GettingStartedGoogleMap = withGoogleMap(props => (
 
 export default class ShowMap extends Component {
   render() {
-  	if (this.props.stops.length !== 0) {
-  		// this.setState({markers:: this.props.stops});
-  	}
-  	// 	this.setState({markers:: this.props.stops});
-  	// }
     return (
     	<div>
 	      <GettingStartedGoogleMap
@@ -54,6 +57,8 @@ export default class ShowMap extends Component {
 			    markers={this.props.stops}
 			    polyLines={this.props.polyLines}
 			    onMarkerRightClick={_.noop}
+			    onMarkerClick={this.props.handleMarkerClick}
+          onMarkerClose={this.props.handleMarkerClose}
 			  />
 
 
