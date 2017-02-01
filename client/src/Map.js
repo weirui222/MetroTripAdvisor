@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
 import ShowMap from './showMap';
 import Polyline from "polyline";
-<<<<<<< HEAD
-import $ from "jquery";
-=======
 import Navbar from './Navbar';
->>>>>>> 48bf58ea6f9b7394b0fdd0733f69b754a7f00b74
 
 class Map extends Component {
   constructor(props) {
@@ -80,7 +76,7 @@ class Map extends Component {
   	if (e) {
   		e.preventDefault();
   	}
-  	
+
   	for (var i = 0; i < this.state.routes.length; i++) {
   		if(this.state.routes[i].shortName === this.state.searchTerm) {
   			console.log('this.state.routes[i].shortName',this.state.routes[i].shortName);
@@ -172,18 +168,9 @@ class Map extends Component {
     });
   }
 
-  addFavorite() {
-      $.ajax({
-          method: 'POST',
-          url: 'favorites/' + this.state.searchTerm,
-      }).done(function(data) {
-          console.log('fav ajax posting');
-          window.location = './';
-      });
-  }
-
   render() {
     return (
+
       <div>
       	<Navbar />
         <form className="submitForm" onSubmit={(e) => this.showRoute(e)}>
@@ -192,21 +179,15 @@ class Map extends Component {
                  value={this.state.searchTerm} />
           <button type="submit">Submit</button>
         </form>
-      	<ShowMap stops={this.state.markers} polyLines={this.state.polyLines} 
+      	<ShowMap stops={this.state.markers} polyLines={this.state.polyLines}
       					 handleMarkerClick={this.handleMarkerClick}
       					 handleMarkerClose={this.handleMarkerClose}
       					 handleRouteClick={this.handleRouteClick}/>
+        <p><button className="btn btn-primary" id="favButton" onClick={() => this.addFavorite(this.state.searchTerm)}>Add to Favorites</button></p>
       </div>
-<<<<<<< HEAD
-      <p><button className="btn btn-primary" id="favButton" onClick={() => this.addFavorite(this.state.searchTerm)}>Add to Favorites</button></p>
-      <ShowMap stops={tepmarkers} polyLines={polyLines} />
-		</div>
    );
  }
-=======
-    );
-  }
->>>>>>> 48bf58ea6f9b7394b0fdd0733f69b754a7f00b74
+
 }
 
 export default Map;
