@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { withGoogleMap, GoogleMap,Marker,Polyline,InfoWindow} from "react-google-maps";
 import _ from "lodash";
+import icon from './img/bus-icon-trans.png';
 
 const GettingStartedGoogleMap = withGoogleMap(props => (
   <GoogleMap
@@ -12,6 +13,7 @@ const GettingStartedGoogleMap = withGoogleMap(props => (
     {props.markers.map((marker, index) => (
       <Marker
         key={index}
+        icon={{url: icon}}
         position={marker.position}
         showInfo={marker.showInfo}
         onClick={() => props.onMarkerClick(marker)}
