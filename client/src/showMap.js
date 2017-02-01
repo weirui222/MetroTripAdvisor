@@ -11,6 +11,7 @@ const GettingStartedGoogleMap = withGoogleMap(props => (
   >
     {props.markers.map((marker, index) => (
       <Marker
+        key={index}
         position={marker.position}
         showInfo={marker.showInfo}
         onClick={() => props.onMarkerClick(marker)}

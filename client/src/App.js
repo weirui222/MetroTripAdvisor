@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import './App.css';
-import ShowMap from './showMap';
-import Polyline from "polyline";
 import Navbar from './Navbar';
 import Login from './Login';
 import Map from './Map';

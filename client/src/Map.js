@@ -4,7 +4,7 @@ import Polyline from "polyline";
 import Navbar from './Navbar';
 
 class Map extends Component {
-	constructor(props) {
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -20,19 +20,8 @@ class Map extends Component {
     this.performAgencyAPIRequest();
   }
 
-  responseFacebook (response) {
-    console.log(response);
-    //anything else you want to do(save to localStorage)...
-  }
-
-	responseGoogle (googleUser) {
-    var id_token = googleUser.getAuthResponse().id_token;
-		console.log({accessToken: id_token});
-    //anything else you want to do(save to localStorage)...
-  }
-
   performAgencyAPIRequest() {
-  	fetch(`/api/agencies-with-coverage`)
+    fetch(`/api/agencies-with-coverage`)
     .then(response => {
       response.json().then(data => {
         console.log('data',data);
