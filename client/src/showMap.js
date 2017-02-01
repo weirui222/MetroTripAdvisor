@@ -19,7 +19,17 @@ const GettingStartedGoogleMap = withGoogleMap(props => (
       >
       	{marker.showInfo && (
           <InfoWindow onCloseClick={() => props.onMarkerClose(marker)}>
-            <div>{marker.name}</div>
+            <div>
+              <div>
+            		{marker.name}
+            	</div>
+            	<div>
+            		{marker.buses.map((bus,index) => (
+            			<button key={index} onClick={() => props.handleRouteClick(bus)}>{bus.shortName}</button>
+            			))}
+            	</div>
+            </div>
+
           </InfoWindow>
         )}
       </Marker>
@@ -60,6 +70,7 @@ export default class ShowMap extends Component {
 			    onMarkerRightClick={_.noop}
 			    onMarkerClick={this.props.handleMarkerClick}
           onMarkerClose={this.props.handleMarkerClose}
+          handleRouteClick={this.props.handleRouteClick}
 			  />
 
 

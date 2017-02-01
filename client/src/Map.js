@@ -73,7 +73,10 @@ class Map extends Component {
   }
 
   showRoute(e) {
-  	e.preventDefault();
+  	if (e) {
+  		e.preventDefault();
+  	}
+  	
   	for (var i = 0; i < this.state.routes.length; i++) {
   		if(this.state.routes[i].shortName === this.state.searchTerm) {
   			console.log('this.state.routes[i].shortName',this.state.routes[i].shortName);
@@ -84,16 +87,34 @@ class Map extends Component {
 
   drawMarkerRoute() {
   	if (this.state.routeStops) {
-			for (var i = 0; i < this.state.routeStops.references.stops.length; i++) {
+  		this.state.markers=[];
+  		this.state.polyLines = [];
+
+			for (let i = 0; i < this.state.routeStops.references.stops.length; i++) {
 				let latitude = this.state.routeStops.references.stops[i].lat;
 				let longitude = this.state.routeStops.references.stops[i].lon;
+				let buses = [];
+				for (let j = 0; j < this.state.routeStops.references.stops[i].routeIds.length; j++) {
+					let routeId = this.state.routeStops.references.stops[i].routeIds[j];
+					for (var k = 0; k < this.state.routeStops.references.routes.length; k++) {
+						let route = this.state.routeStops.references.routes[k];
+						if (route.id === routeId && route.shortName) {
+							buses.push({
+								shortName:route.shortName,
+								routeId:route.id
+							});
+							break;
+						}
+					}
+				}
 				let stop= {
 					position: {
 						lat: latitude,
 						lng: longitude
 					},
 					showInfo: false,
-					name: this.state.routeStops.references.stops[i].name
+					name: this.state.routeStops.references.stops[i].name,
+					buses: buses
 				};
 				this.state.markers.push(stop);
 				this.setState({markers: this.state.markers});
@@ -107,9 +128,16 @@ class Map extends Component {
 
 		}
   }
-
+  handleRouteClick = this.handleRouteClick.bind(this);
   handleMarkerClick = this.handleMarkerClick.bind(this);
   handleMarkerClose = this.handleMarkerClose.bind(this);
+
+  handleRouteClick(bus) {
+    this.setState({
+      searchTerm: bus.shortName,
+      routeId: bus.routeId
+    }, this.getRouteStop);
+  }
 
   // Toggle to 'true' to show InfoWindow and re-renders component
   handleMarkerClick(targetMarker) {
@@ -152,7 +180,8 @@ class Map extends Component {
         </form>
       	<ShowMap stops={this.state.markers} polyLines={this.state.polyLines} 
       					 handleMarkerClick={this.handleMarkerClick}
-      					 handleMarkerClose={this.handleMarkerClose}/>
+      					 handleMarkerClose={this.handleMarkerClose}
+      					 handleRouteClick={this.handleRouteClick}/>
       </div>
     );
   }
