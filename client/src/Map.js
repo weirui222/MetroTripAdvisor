@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-import Navbar from './Navbar';
 import ShowMap from './showMap';
 import Polyline from "polyline";
+<<<<<<< HEAD
 import $ from "jquery";
+=======
+import Navbar from './Navbar';
+>>>>>>> 48bf58ea6f9b7394b0fdd0733f69b754a7f00b74
 
 class Map extends Component {
   constructor(props) {
@@ -13,8 +16,11 @@ class Map extends Component {
       routes: [],
       routeId: "",
       searchTerm: "",
-      routeStops:null
+      routeStops:null,
+      markers:[],
+      polyLines:[]
     };
+
     this.performAgencyAPIRequest();
   }
 
@@ -32,24 +38,24 @@ class Map extends Component {
   }
 
   performRouteAPIRequests() {
-    for (var i = 0; i < this.state.agencies.length; i++) {
-      const agencyId = this.state.agencies[i].id;
-      window.setTimeout(() => this.performRouteAPIRequest(agencyId), i*200);
-    }
+  	for (var i = 0; i < this.state.agencies.length; i++) {
+  		const agencyId = this.state.agencies[i].id;
+  		window.setTimeout(() => this.performRouteAPIRequest(agencyId), i*200);
+  	}
   }
 
   performRouteAPIRequest(agencyId) {
-    fetch(`/api/routes-for-agency/` + agencyId)
-      .then(response => {
-        response.json().then(data => {
-          for (var j = 0; j < data.data.list.length; j++) {
-            this.state.routes.push(data.data.list[j]);
-          }
-          this.setState({routes: this.state.routes});
-        });
-      }).catch(error => {
-        this.setState({routes: null});
-      });
+  	fetch(`/api/routes-for-agency/` + agencyId)
+	    .then(response => {
+	      response.json().then(data => {
+	      	for (var j = 0; j < data.data.list.length; j++) {
+	      		this.state.routes.push(data.data.list[j]);
+	      	}
+	        this.setState({routes: this.state.routes});
+	      });
+	    }).catch(error => {
+	      this.setState({routes: null});
+	    });
   }
 
   searchChange(e) {
@@ -57,27 +63,113 @@ class Map extends Component {
   }
 
   getRouteStop() {
-    if(this.state.routeId !== ""){
-      fetch(`/api/stops-for-route/` + this.state.routeId)
-      .then(response => {
-        response.json().then(data => {
-          console.log('stops',data);
-          this.setState({routeStops: data.data});
-        });
-      }).catch(error => {
-        this.setState({routes: null});
-      });
-    }
+  	if(this.state.routeId !== ""){
+  		fetch(`/api/stops-for-route/` + this.state.routeId)
+	    .then(response => {
+	      response.json().then(data => {
+	      	console.log('stops',data);
+	        this.setState({routeStops: data.data}, this.drawMarkerRoute);
+	      });
+	    }).catch(error => {
+	      this.setState({routes: null});
+	    });
+  	}
   }
 
   showRoute(e) {
-    e.preventDefault();
-    for (var i = 0; i < this.state.routes.length; i++) {
-      if(this.state.routes[i].shortName === this.state.searchTerm) {
-        console.log('this.state.routes[i].shortName',this.state.routes[i].shortName);
-        this.setState({routeId: this.state.routes[i].id}, this.getRouteStop);
-      }
-    }
+  	if (e) {
+  		e.preventDefault();
+  	}
+  	
+  	for (var i = 0; i < this.state.routes.length; i++) {
+  		if(this.state.routes[i].shortName === this.state.searchTerm) {
+  			console.log('this.state.routes[i].shortName',this.state.routes[i].shortName);
+  			this.setState({routeId: this.state.routes[i].id}, this.getRouteStop);
+  		}
+  	}
+  }
+
+  drawMarkerRoute() {
+  	if (this.state.routeStops) {
+  		this.state.markers=[];
+  		this.state.polyLines = [];
+
+			for (let i = 0; i < this.state.routeStops.references.stops.length; i++) {
+				let latitude = this.state.routeStops.references.stops[i].lat;
+				let longitude = this.state.routeStops.references.stops[i].lon;
+				let buses = [];
+				for (let j = 0; j < this.state.routeStops.references.stops[i].routeIds.length; j++) {
+					let routeId = this.state.routeStops.references.stops[i].routeIds[j];
+					for (var k = 0; k < this.state.routeStops.references.routes.length; k++) {
+						let route = this.state.routeStops.references.routes[k];
+						if (route.id === routeId && route.shortName) {
+							buses.push({
+								shortName:route.shortName,
+								routeId:route.id
+							});
+							break;
+						}
+					}
+				}
+				let stop= {
+					position: {
+						lat: latitude,
+						lng: longitude
+					},
+					showInfo: false,
+					name: this.state.routeStops.references.stops[i].name,
+					buses: buses
+				};
+				this.state.markers.push(stop);
+				this.setState({markers: this.state.markers});
+
+			}
+			for (var j = 0; j < this.state.routeStops.entry.polylines.length; j++) {
+				let points = Polyline.decode(this.state.routeStops.entry.polylines[j].points);
+				this.state.polyLines.push(points);
+				this.setState({polyLines: this.state.polyLines});
+			}
+
+		}
+  }
+  handleRouteClick = this.handleRouteClick.bind(this);
+  handleMarkerClick = this.handleMarkerClick.bind(this);
+  handleMarkerClose = this.handleMarkerClose.bind(this);
+
+  handleRouteClick(bus) {
+    this.setState({
+      searchTerm: bus.shortName,
+      routeId: bus.routeId
+    }, this.getRouteStop);
+  }
+
+  // Toggle to 'true' to show InfoWindow and re-renders component
+  handleMarkerClick(targetMarker) {
+    this.setState({
+      markers: this.state.markers.map(marker => {
+        if (marker === targetMarker) {
+          return {
+            ...marker,
+            showInfo: true,
+          };
+        }
+        return marker;
+      }),
+    });
+  }
+
+  handleMarkerClose(targetMarker) {
+    this.setState({
+      markers: this.state.markers.map(marker => {
+        if (marker === targetMarker) {
+          return {
+            ...marker,
+            showInfo: false,
+          };
+        }
+        return marker;
+      }),
+    });
   }
 
   addFavorite() {
@@ -91,62 +183,30 @@ class Map extends Component {
   }
 
   render() {
-    let listStops = [];
-    if (this.state.routeStops) {
-      listStops = this.state.routeStops.references.stops.map((stop, index) => {
-        return <li key={index}> {stop.name} </li>
-      });
-    }
-
-    let lengthInfo = null;
-    if (this.state.routeStops) {
-      console.log("routeStops:", this.state.routeStops)
-      lengthInfo = <p>route length: {this.state.routeStops.references.stops.length}</p>
-    } else {
-      lengthInfo = <p>route length: 0</p>
-    }
-
-    let tepmarkers=[];
-    let polyLines = [];
-    if (this.state.routeStops) {
-      for (var i = 0; i < this.state.routeStops.references.stops.length; i++) {
-        let latitude = this.state.routeStops.references.stops[i].lat;
-        let longitude = this.state.routeStops.references.stops[i].lon;
-        let stop= {
-          position: {
-            lat: latitude,
-            lng: longitude
-          },
-          key: this.state.routeStops.references.stops[i].name + i,
-          defaultAnimation: 2
-        };
-        tepmarkers.push(stop);
-      }
-      for (var j = 0; j < this.state.routeStops.entry.polylines.length; j++) {
-        let points = Polyline.decode(this.state.routeStops.entry.polylines[j].points);
-        polyLines.push(points);
-      }
-    }
-   return (
-    <div>
-      <Navbar />
-      <form className="submitForm" onSubmit={(e) => this.showRoute(e)}>
-        <input placeholder="Enter the bus" className="inputField" type="text" required
-               onChange={e => this.searchChange(e)}
-               value={this.state.searchTerm} />
-        <button type="submit">Submit</button>
-      </form>
+    return (
       <div>
-        {lengthInfo}
-          <ul>
-            {listStops}
-          </ul>
+      	<Navbar />
+        <form className="submitForm" onSubmit={(e) => this.showRoute(e)}>
+          <input placeholder="Enter the bus" className="inputField" type="text" required
+          			 onChange={e => this.searchChange(e)}
+                 value={this.state.searchTerm} />
+          <button type="submit">Submit</button>
+        </form>
+      	<ShowMap stops={this.state.markers} polyLines={this.state.polyLines} 
+      					 handleMarkerClick={this.handleMarkerClick}
+      					 handleMarkerClose={this.handleMarkerClose}
+      					 handleRouteClick={this.handleRouteClick}/>
       </div>
+<<<<<<< HEAD
       <p><button className="btn btn-primary" id="favButton" onClick={() => this.addFavorite(this.state.searchTerm)}>Add to Favorites</button></p>
       <ShowMap stops={tepmarkers} polyLines={polyLines} />
 		</div>
    );
  }
+=======
+    );
+  }
+>>>>>>> 48bf58ea6f9b7394b0fdd0733f69b754a7f00b74
 }
 
 export default Map;

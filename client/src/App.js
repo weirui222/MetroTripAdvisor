@@ -8,6 +8,7 @@ const Router = require('react-router').Router;
 const Route = require('react-router').Route;
 const browserHistory = require('react-router').browserHistory;
 
+<<<<<<< HEAD
 	class App extends Component {
 		render() {
 	    return (
@@ -21,10 +22,21 @@ const browserHistory = require('react-router').browserHistory;
 	      </div>
 	    );
   }
+=======
+class App extends Component {
+>>>>>>> 48bf58ea6f9b7394b0fdd0733f69b754a7f00b74
 
+	render() {
+    return (
+      <div className="container">
+				<Router history={browserHistory}>
+					<Navbar />
+					<Route path="/" component={Map} />
+					<Route path="/Login" component={Login} />
+				</Router>
+      </div>
+    );
+	}
 }
-
-
-
 
 export default App;
