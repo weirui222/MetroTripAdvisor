@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ShowMap from './showMap';
 import Polyline from "polyline";
 import Navbar from './Navbar';
+import $ from "jquery";
 
 class Map extends Component {
   constructor(props) {
@@ -166,6 +167,15 @@ class Map extends Component {
         return marker;
       }),
     });
+  }
+  addFavorite() {
+      $.ajax({
+          method: 'POST',
+          url: 'http://localhost:3000/favorites/' + this.state.searchTerm
+      }).done(function(data) {
+          console.log('favorite ajax posting');
+          window.location = './';
+      });
   }
 
   render() {

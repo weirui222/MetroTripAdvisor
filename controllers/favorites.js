@@ -24,7 +24,7 @@ router.get('/:id', isLoggedIn, function(req, res) {
 });
 
 router.post('/:id', isLoggedIn, function(req, res) {
-    db.favorite.createFavorite({
+    req.user.createFavorite({
         bus: req.params.id,
         userId: req.user.id,
     }).then(function(favorite) {

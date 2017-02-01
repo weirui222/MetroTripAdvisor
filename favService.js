@@ -10,7 +10,7 @@ import $ from "jquery";
 addFavorite() {
     $.ajax({
         method: 'POST',
-        url: 'localhost:3000/boomkmarks',
+        url: 'http://localhost:3000/boomkmarks',
     }).done(function(data) {
         console.log(fav ajax posting);
         window.location = './';
@@ -48,7 +48,7 @@ $('.delete-link').on('click', function(e) {
   }).done(function(data) {
     console.log(data);
     Element.remove();
-    window.location = 'localhost:3000/boomkmarks';
+    window.location = 'http://localhost:3000/boomkmarks';
   });
 });
 
