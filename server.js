@@ -9,6 +9,7 @@ const isLoggedIn = require('./middleware/isLoggedIn');
 const moment = require('moment');
 const session = require('express-session');
 const ejsLayouts = require('express-ejs-layouts');
+const async = require("async");
 
 //globals
 const app = express();
@@ -19,7 +20,6 @@ app.use(ejsLayouts);
 app.use(bodyParser.urlencoded({
     extended: false
 }));
-
 app.use(session({
   secret: 'Super secrettttt',
   resave: false,
@@ -36,6 +36,7 @@ app.use(passport.session());
 app.use(flash());
 
 app.use('/auth', require('./controllers/auth'));
+app.use('/favorites', require('./controllers/favorites'));
 
 app.get('/api/agencies-with-coverage', function(req, res) {
 	const url = 'http://api.pugetsound.onebusaway.org/api/where/agencies-with-coverage.json?key=83203046-c396-4ea2-ae27-72be1ed86993';

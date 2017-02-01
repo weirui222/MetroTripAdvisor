@@ -29,7 +29,7 @@ class Navbar extends Component {
            </form>
            <ul className="nav navbar-nav navbar-right">
              <li><a href="#">Recent</a></li>
-             <li><a href="#">Bookmarks</a></li>
+             <li><a href={`/Bookmarks`}>Bookmarks</a></li>
            </ul>
          </div>
        </div>

@@ -1,11 +1,7 @@
-var db = require('../models');
-var express = require('express');
-var router = express.Router();
-var passport = require('../config/ppConfig');
-
-router.get('/zebra', function(req, res) {
-  res.send("yeah");
-})
+const db = require('../models');
+const express = require('express');
+const router = express.Router();
+const passport = require('../config/ppConfig');
 
 router.get('/', function(req, res) {
     res.render('/');

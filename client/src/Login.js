@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Navbar from './Navbar';
-const Link = require('react-router').Link;
 
 class Login extends Component {
  render() {

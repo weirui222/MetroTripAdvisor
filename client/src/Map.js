@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Navbar from './Navbar';
 import ShowMap from './showMap';
 import Polyline from "polyline";
-const Link = require('react-router').Link;
+import $ from "jquery";
 
 class Map extends Component {
   constructor(props) {
@@ -80,6 +80,16 @@ class Map extends Component {
     }
   }
 
+  addFavorite() {
+      $.ajax({
+          method: 'POST',
+          url: 'favorites/' + this.state.searchTerm,
+      }).done(function(data) {
+          console.log('fav ajax posting');
+          window.location = './';
+      });
+  }
+
   render() {
     let listStops = [];
     if (this.state.routeStops) {
@@ -132,6 +142,7 @@ class Map extends Component {
             {listStops}
           </ul>
       </div>
+      <p><button className="btn btn-primary" id="favButton" onClick={() => this.addFavorite(this.state.searchTerm)}>Add to Favorites</button></p>
       <ShowMap stops={tepmarkers} polyLines={polyLines} />
 		</div>
    );
