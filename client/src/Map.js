@@ -15,7 +15,8 @@ class Map extends Component {
       searchTerm: "",
       routeStops:null,
       markers:[],
-      polyLines:[]
+      polyLines:[],
+      location:null
     };
 
     this.performAgencyAPIRequest();
@@ -79,9 +80,10 @@ class Map extends Component {
   	}
 
   	for (var i = 0; i < this.state.routes.length; i++) {
-  		if(this.state.routes[i].shortName === this.state.searchTerm) {
-  			console.log('this.state.routes[i].shortName',this.state.routes[i].shortName);
-  			this.setState({routeId: this.state.routes[i].id}, this.getRouteStop);
+  		let route = this.state.routes[i];
+  		if(route.shortName === this.state.searchTerm) {
+  			console.log('route.shortName',route.shortName);
+  			this.setState({routeId: route.id}, this.getRouteStop);
   		}
   	}
   }
@@ -92,11 +94,10 @@ class Map extends Component {
   		this.state.polyLines = [];
 
 			for (let i = 0; i < this.state.routeStops.references.stops.length; i++) {
-				let latitude = this.state.routeStops.references.stops[i].lat;
-				let longitude = this.state.routeStops.references.stops[i].lon;
+				let theStop = this.state.routeStops.references.stops[i];
 				let buses = [];
-				for (let j = 0; j < this.state.routeStops.references.stops[i].routeIds.length; j++) {
-					let routeId = this.state.routeStops.references.stops[i].routeIds[j];
+				for (let j = 0; j < theStop.routeIds.length; j++) {
+					let routeId = theStop.routeIds[j];
 					for (var k = 0; k < this.state.routeStops.references.routes.length; k++) {
 						let route = this.state.routeStops.references.routes[k];
 						if (route.id === routeId && route.shortName) {
@@ -110,11 +111,11 @@ class Map extends Component {
 				}
 				let stop= {
 					position: {
-						lat: latitude,
-						lng: longitude
+						lat: theStop.lat,
+						lng: theStop.lon
 					},
 					showInfo: false,
-					name: this.state.routeStops.references.stops[i].name,
+					name: theStop.name,
 					buses: buses
 				};
 				this.state.markers.push(stop);
@@ -168,6 +169,55 @@ class Map extends Component {
       }),
     });
   }
+  handleLocationChanged = this.handleLocationChanged.bind(this);
+  handleLocationChanged(location) {
+  	this.setState({location:location});
+  	fetch(`/api/stops-for-location/${location.lat}/${location.lng}`)
+    .then(response => {
+      response.json().then(data => {
+        console.log('data',data);
+        this.drawNearbyStops(data.data);
+      });
+    }).catch(error => {
+    });
+  }
+
+  drawNearbyStops(data) {
+		this.state.markers=[];
+
+		for (let i = 0; i < data.list.length; i++) {
+			let theStop = data.list[i];
+			let buses = [];
+			for (let j = 0; j < theStop.routeIds.length; j++) {
+				let routeId = theStop.routeIds[j];
+				for (var k = 0; k < data.references.routes.length; k++) {
+					let route = data.references.routes[k];
+					if (route.id === routeId && route.shortName) {
+						buses.push({
+							shortName:route.shortName,
+							routeId:route.id
+						});
+						break;
+					}
+				}
+			}
+			let stop= {
+				position: {
+					lat: theStop.lat,
+					lng: theStop.lon
+				},
+				showInfo: false,
+				name: theStop.name,
+				buses: buses
+			};
+			this.state.markers.push(stop);
+		}
+
+		this.setState({markers: this.state.markers});
+		
+		this.setState({polyLines: []});
+  }
+
   addFavorite() {
       $.ajax({
           method: 'POST',
@@ -190,9 +240,11 @@ class Map extends Component {
           <button type="submit">Submit</button>
         </form>
       	<ShowMap stops={this.state.markers} polyLines={this.state.polyLines}
+      					 location={this.state.location}
       					 handleMarkerClick={this.handleMarkerClick}
       					 handleMarkerClose={this.handleMarkerClose}
-      					 handleRouteClick={this.handleRouteClick}/>
+      					 handleRouteClick={this.handleRouteClick}
+      					 handleLocationChanged={this.handleLocationChanged}/>
         <p><button className="btn btn-primary" id="favButton" onClick={() => this.addFavorite(this.state.searchTerm)}>Add to Favorites</button></p>
       </div>
    );

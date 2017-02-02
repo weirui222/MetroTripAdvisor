@@ -59,6 +59,13 @@ app.get('/api/stops-for-route/:id', function(req, res) {
 	})
 });
 
+app.get('/api/stops-for-location/:lat/:lng', function(req, res) {
+	const url = 'http://api.pugetsound.onebusaway.org/api/where/stops-for-location.json?key=83203046-c396-4ea2-ae27-72be1ed86993&lat=' + req.params.lat + '&lon=' + req.params.lng;
+	request(url, function(error, response, body) {
+		res.send(body);
+	})
+});
+
 app.set('port', (process.env.PORT || 3010));
 
 // Express only serves static assets in production
