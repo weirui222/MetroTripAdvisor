@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const express = require('express');
 const db = require('../models');
-const isLoggedIn = require('../middleware/isLoggedIn');
 const moment = require('moment');
 const async = require("async");
 import $ from "jquery";

@@ -1,11 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../models');
-const isLoggedIn = require('../middleware/isLoggedIn');
 const moment = require('moment');
 const async = require("async");
 
-router.get('/all', isLoggedIn, function(req, res) {
+router.get('/all', function(req, res) {
     req.user.getFavorites().then(function(favorites) {
         res.render('favorites/all', {
             favorites: favorites
@@ -13,7 +12,7 @@ router.get('/all', isLoggedIn, function(req, res) {
     });
 });
 
-router.get('/:id', isLoggedIn, function(req, res) {
+router.get('/:id', function(req, res) {
     db.user.findById(req.user.id).then(function(user) {
         db.favorite.findById(req.params.id).then(function(favorite) {
             res.render('favorites/one', {
@@ -23,7 +22,7 @@ router.get('/:id', isLoggedIn, function(req, res) {
     });
 });
 
-router.post('/:id', isLoggedIn, function(req, res) {
+router.post('/:id', function(req, res) {
     req.user.createFavorite({
         bus: req.params.id,
         userId: req.user.id,

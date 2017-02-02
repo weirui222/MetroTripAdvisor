@@ -21,16 +21,11 @@ class Navbar extends Component {
              <li><a href="#">Info</a></li>
              <li><a href="#">Nearby</a></li>
            </ul>
-           <form className="navbar-form navbar-left">
-             <div className="form-group">
-               <input type="text" className="form-control search-query span2" placeholder=" Search Puget Sound&hellip;" />
-             </div>
-             <button type="submit" className="btn btn-default">Submit</button>
-           </form>
            <ul className="nav navbar-nav navbar-right">
              <li><a href="#">Recent</a></li>
              <li><a href={`/Bookmarks`}>Bookmarks</a></li>
            </ul>
+           <p>{this.props.username} </p>
          </div>
        </div>
      </nav>

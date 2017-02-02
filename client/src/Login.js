@@ -1,16 +1,34 @@
 import React, { Component } from 'react';
-import Navbar from './Navbar';
 
 class Login extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      userName: '',
+      displayUserName:''
+    };
+  }
+
+changeName(e) {
+  this.setState({userName: e.target.value});
+  console.log(e.target.value);
+}
+
+displayName(e){
+  e.preventDefault();
+  if (this.state.userName !== '') {
+    this.setState({displayUserName: this.state.userName});
+  }
+
+  this.props.route.setusername(this.state.userName);
+}
+
  render() {
    return (
     <div>
-     	<Navbar />
-			<a href="http://localhost:3010/auth/facebook" className="btn btn-primary">
-	   		Login via Facebook
-	 		</a>
 	 		<h1> sign up </h1>
-			<form id="signUp" action="http://localhost:3010/auth/signup" method="POST">
+			<form id="signUp" action="/auth/signup" method="POST" onSubmit={e => this.displayName(e)}>
 			  <div className="form-group">
 			    <label htmlFor="authEmail">Email</label>
 			    <input id="authEmail" className="form-control" type="email" name="email" />
@@ -18,7 +36,7 @@ class Login extends Component {
 
 			  <div className="form-group">
 			    <label htmlFor="authName">Name</label>
-			    <input id="authName" className="form-control" type="text" name="name" />
+			    <input id="authName" onChange={e => this.changeName(e)} className="form-control" type="text" name="name" />
 			  </div>
 
 			  <div className="form-group">
@@ -28,7 +46,7 @@ class Login extends Component {
 				<input className="btn btn-primary" type="submit"/>
 			</form>
 			<h1> login </h1>
-			<form id="login" action="http://localhost:3010/auth/login" method="POST">
+			<form id="login" action="/auth/login" method="POST">
 				<div className="form-group">
 				  <label htmlFor="authEmail">Email</label>
 				  <input id="authEmail" className="form-control" type="email" name="email" />

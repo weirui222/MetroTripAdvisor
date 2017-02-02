@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import ShowMap from './showMap';
 import Polyline from "polyline";
-import Navbar from './Navbar';
 import $ from "jquery";
 
 class Map extends Component {
@@ -214,7 +213,7 @@ class Map extends Component {
 		}
 
 		this.setState({markers: this.state.markers});
-		
+
 		this.setState({polyLines: []});
   }
 
@@ -232,7 +231,6 @@ class Map extends Component {
     return (
 
       <div>
-      	<Navbar />
         <form className="submitForm" onSubmit={(e) => this.showRoute(e)}>
           <input placeholder="Enter the bus" className="inputField" type="text" required
           			 onChange={e => this.searchChange(e)}

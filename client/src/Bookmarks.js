@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Navbar from './Navbar';
 import Bookmark from './Bookmark';
 
 class Bookmarks extends Component {
@@ -13,7 +12,6 @@ class Bookmarks extends Component {
  render() {
    return (
     <div>
-     	<Navbar />
       <h1>Bookmarks </h1>
       {this.results()}
     </div>
