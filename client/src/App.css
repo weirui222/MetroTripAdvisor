@@ -1,1 +1,26 @@
+.navbar-brand{
+	font-size: 24px;
+	font-weight: bold;
+}
+
+a{
+	font-size: 18px;
+}
+h4{
+	margin-top: 100px;
+}
+.mapbutton{
+	margin-top: 30px;
+}
+
+.inputField {
+  border: 1px solid transparent;
+  width: 240px;
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 3px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  font-size: 14px;
+  text-overflow: ellipsis;
+};
 

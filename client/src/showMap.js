@@ -11,9 +11,9 @@ const INPUT_STYLE = {
   border: `1px solid transparent`,
   width: `240px`,
   height: `32px`,
-  marginTop: `27px`,
+  margin:`8px auto`,
   padding: `0 12px`,
-  borderRadius: `1px`,
+  borderRadius: `3px`,
   boxShadow: `0 2px 6px rgba(0, 0, 0, 0.3)`,
   fontSize: `14px`,
   outline: `none`,
@@ -23,7 +23,7 @@ const INPUT_STYLE = {
 const GettingStartedGoogleMap = withGoogleMap(props => (
   <GoogleMap
     ref={props.onMapLoad}
-    defaultZoom={13}
+    defaultZoom={12}
     defaultCenter={{ lat: 47.6062, lng: -122.3321 }}
     center={props.center}
     onClick={props.onMapClick}
@@ -34,7 +34,7 @@ const GettingStartedGoogleMap = withGoogleMap(props => (
       bounds={props.bounds}
       controlPosition={google.maps.ControlPosition.TOP_LEFT}
       onPlacesChanged={props.onPlacesChanged}
-      inputPlaceholder="Customized your placeholder"
+      inputPlaceholder="Enter a location"
       inputStyle={INPUT_STYLE}
     />
     {
@@ -140,10 +140,10 @@ export default class ShowMap extends Component {
     	<div>
 	      <GettingStartedGoogleMap
 			    containerElement={
-			      <div style={{ height: `500px` }} />
+			      <div style={{ height: `800px` }} />
 			    }
 			    mapElement={
-			      <div style={{ height: `500px` }} />
+			      <div style={{ height: `720px` }} />
 			    }
 			    center={this.state.center}
 			    location={this.props.location}

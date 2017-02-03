@@ -25,9 +25,9 @@ class Map extends Component {
     fetch(`/api/agencies-with-coverage`)
     .then(response => {
       response.json().then(data => {
-        console.log('data',data);
+        // console.log('data',data);
         this.setState({agencies: data.data.references.agencies}, this.performRouteAPIRequests);
-        console.log('agencies',this.state.agencies);
+        // console.log('agencies',this.state.agencies);
       });
     }).catch(error => {
       this.setState({agencies: null});
@@ -59,20 +59,6 @@ class Map extends Component {
     this.setState({searchTerm: e.target.value});
   }
 
-  getRouteStop() {
-  	if(this.state.routeId !== ""){
-  		fetch(`/api/stops-for-route/` + this.state.routeId)
-	    .then(response => {
-	      response.json().then(data => {
-	      	console.log('stops',data);
-	        this.setState({routeStops: data.data}, this.drawMarkerRoute);
-	      });
-	    }).catch(error => {
-	      this.setState({routes: null});
-	    });
-  	}
-  }
-
   showRoute(e) {
   	if (e) {
   		e.preventDefault();
@@ -81,15 +67,29 @@ class Map extends Component {
   	for (var i = 0; i < this.state.routes.length; i++) {
   		let route = this.state.routes[i];
   		if(route.shortName === this.state.searchTerm) {
-  			console.log('route.shortName',route.shortName);
+  			// console.log('route.shortName',route.shortName);
   			this.setState({routeId: route.id}, this.getRouteStop);
   		}
   	}
   }
 
+  getRouteStop() {
+  	if(this.state.routeId !== ""){
+  		fetch(`/api/stops-for-route/` + this.state.routeId)
+	    .then(response => {
+	      response.json().then(data => {
+	      	// console.log('stops',data);
+	        this.setState({routeStops: data.data}, this.drawMarkerRoute);
+	      });
+	    }).catch(error => {
+	      this.setState({routes: null});
+	    });
+  	}
+  }
+
   drawMarkerRoute() {
   	if (this.state.routeStops) {
-  		this.state.markers=[];
+  		this.state.markers = [];
   		this.state.polyLines = [];
 
 			for (let i = 0; i < this.state.routeStops.references.stops.length; i++) {
@@ -168,6 +168,7 @@ class Map extends Component {
       }),
     });
   }
+
   handleLocationChanged = this.handleLocationChanged.bind(this);
   handleLocationChanged(location) {
   	this.setState({location:location});
@@ -229,21 +230,29 @@ class Map extends Component {
 
   render() {
     return (
-
-      <div>
-        <form className="submitForm" onSubmit={(e) => this.showRoute(e)}>
-          <input placeholder="Enter the bus" className="inputField" type="text" required
-          			 onChange={e => this.searchChange(e)}
-                 value={this.state.searchTerm} />
-          <button type="submit">Submit</button>
-        </form>
-      	<ShowMap stops={this.state.markers} polyLines={this.state.polyLines}
-      					 location={this.state.location}
-      					 handleMarkerClick={this.handleMarkerClick}
-      					 handleMarkerClose={this.handleMarkerClose}
-      					 handleRouteClick={this.handleRouteClick}
-      					 handleLocationChanged={this.handleLocationChanged}/>
-        <p><button className="btn btn-primary" id="favButton" onClick={() => this.addFavorite(this.state.searchTerm)}>Add to Favorites</button></p>
+      <div className="row">
+      	<div className="col-sm-3">
+      		<h4>Search for routes</h4>
+	        <form className="submitForm" onSubmit={(e) => this.showRoute(e)}>
+	          <input placeholder="Enter a bus" className="inputField" type="text" required
+	          			 onChange={e => this.searchChange(e)}
+	                 value={this.state.searchTerm} />
+	          <button className="btn btn-primary mapbutton" type="submit">Submit</button>
+	        </form>
+	        <button className="btn btn-primary mapbutton" id="favButton" onClick={() => 
+	        				this.addFavorite(this.state.searchTerm)}>
+	        				Add to Favorites</button>
+	        <h4>Search for locations</h4>
+	        <h5>By locations: type in inputfield on Map</h5>
+        </div>
+        <div className="col-sm-9">
+	      	<ShowMap stops={this.state.markers} polyLines={this.state.polyLines}
+	      					 location={this.state.location}
+	      					 handleMarkerClick={this.handleMarkerClick}
+	      					 handleMarkerClose={this.handleMarkerClose}
+	      					 handleRouteClick={this.handleRouteClick}
+	      					 handleLocationChanged={this.handleLocationChanged}/>
+      	</div>
       </div>
    );
  }
