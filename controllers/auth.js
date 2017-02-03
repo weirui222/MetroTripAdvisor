@@ -14,7 +14,7 @@ router.post('/signup', function(req, res) {
   }).spread(function(user, created) {
     if (created) {
       console.log('User created!');
-      res.redirect('http://localhost:3000');
+      res.redirect('/');
     } else {
       console.log('Email already exists');
       res.redirect('/login');

@@ -221,7 +221,7 @@ class Map extends Component {
   addFavorite() {
       $.ajax({
           method: 'POST',
-          url: 'http://localhost:3000/favorites/' + this.state.searchTerm
+          url: '/favorites/' + this.state.searchTerm
       }).done(function(data) {
           console.log('favorite ajax posting');
           window.location = './';
@@ -239,7 +239,7 @@ class Map extends Component {
 	                 value={this.state.searchTerm} />
 	          <button className="btn btn-primary mapbutton" type="submit">Submit</button>
 	        </form>
-	        <button className="btn btn-primary mapbutton" id="favButton" onClick={() => 
+	        <button className="btn btn-primary mapbutton" id="favButton" onClick={() =>
 	        				this.addFavorite(this.state.searchTerm)}>
 	        				Add to Favorites</button>
 	        <h4>Search for locations</h4>
