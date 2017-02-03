@@ -1,5 +1,4 @@
-![ScreenShot](https://raw.github.com/{brianbixby}/{MetroTripAdvisor}/{master}/{MetroTripAdvisor/client/src/img/screenShot.png})
-
+<img src="/client/src/img/screenshot.png">
 You will need to install some packages:
 
 ```sh
