@@ -29,7 +29,7 @@ displayName(e){
    	<div className="row">
 	    <div className="col-sm-4 col-sm-offset-1">
 		 		<h1> Sign Up </h1>
-					<form id="signUp" action="/auth/signup" method="POST" onSubmit={e => this.displayName(e)}>
+					<form id="signUp" action="/auth/signup" method="POST">
 					  <div className="form-group">
 					    <label htmlFor="authEmail">Email</label>
 					    <input id="authEmail" className="form-control" type="email" name="email" />
@@ -37,7 +37,7 @@ displayName(e){
 
 					  <div className="form-group">
 					    <label htmlFor="authName">Name</label>
-					    <input id="authName" onChange={e => this.changeName(e)} className="form-control" type="text" name="name" />
+					    <input id="authName"  className="form-control" type="text" name="name" />
 					  </div>
 
 					  <div className="form-group">

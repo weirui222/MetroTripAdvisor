@@ -23,9 +23,8 @@ router.get('/:id', function(req, res) {
 });
 
 router.post('/:id', function(req, res) {
-    req.user.createFavorite({
-        bus: req.params.id,
-        userId: req.user.id,
+    db.favorite.findOrCreate({
+      where: { bus: req.params.id }
     }).then(function(favorite) {
         console.log("CREATED FAV", favorite);
         res.send(true);
