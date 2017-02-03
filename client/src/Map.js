@@ -263,7 +263,7 @@ class Map extends Component {
     return (
       <div className="row">
       	<div className="col-sm-3">
-      		<h4 className="btn-primary">Search for locations on Map</h4>
+      		<h4 className="btn-primary">Location: search on Map</h4>
       		<h4 className="btn-primary">Search for routes</h4>
 	        <form className="submitForm" onSubmit={(e) => this.showRoute(e)}>
 	          <input placeholder="Enter a bus" className="inputField" type="text" required
@@ -271,16 +271,17 @@ class Map extends Component {
 	                 value={this.state.searchTerm} />
 	          <button className="btn btn-info mapbutton" type="submit">Submit</button>
 	        </form>
-	        <button className="btn btn-primary mapbutton" id="favButton" onClick={(e) =>
+	        <button className="btn btn-info mapbutton" id="favButton" onClick={(e) =>
 	        				this.addFavorite(e)}>
 	        				Add to Favorites</button>
+	        <h4 className="btn-primary">Favorite routes</h4>
 	        <ul>
 	        {
 	        	this.state.favorites.map((favorite, index) => (
 	        			<li key={index}>
 	        				<a onClick={() => this.handleFavoriteClick(favorite.bus)}>{favorite.bus}</a>
 	        				&nbsp;
-	        				<a onClick={() => this.handleFavoriteDelete(favorite.id)}>X</a>
+	        				<a className="delete" onClick={() => this.handleFavoriteDelete(favorite.id)}>X</a>
 	        			</li>
 	        		))
 	        }
