@@ -232,18 +232,17 @@ class Map extends Component {
     return (
       <div className="row">
       	<div className="col-sm-3">
-      		<h4>Search for routes</h4>
+      		<h4 className="btn-primary">Search for locations on Map</h4>
+      		<h4 className="btn-primary">Search for routes</h4>
 	        <form className="submitForm" onSubmit={(e) => this.showRoute(e)}>
 	          <input placeholder="Enter a bus" className="inputField" type="text" required
 	          			 onChange={e => this.searchChange(e)}
 	                 value={this.state.searchTerm} />
-	          <button className="btn btn-primary mapbutton" type="submit">Submit</button>
+	          <button className="btn btn-info mapbutton" type="submit">Submit</button>
 	        </form>
 	        <button className="btn btn-primary mapbutton" id="favButton" onClick={() =>
 	        				this.addFavorite(this.state.searchTerm)}>
 	        				Add to Favorites</button>
-	        <h4>Search for locations</h4>
-	        <h5>By locations: type in inputfield on Map</h5>
         </div>
         <div className="col-sm-9">
 	      	<ShowMap stops={this.state.markers} polyLines={this.state.polyLines}

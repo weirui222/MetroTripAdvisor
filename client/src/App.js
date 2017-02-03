@@ -19,7 +19,7 @@ const browserHistory = require('react-router').browserHistory;
 
 		render() {
 	    return (
-	    	<div>
+	    	<div className="App">
 		    	<Navbar username={this.state.username} />
 		      <div className="container">
 						<Router history={browserHistory}>
