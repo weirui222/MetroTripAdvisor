@@ -15,10 +15,12 @@ class Map extends Component {
       routeStops:null,
       markers:[],
       polyLines:[],
-      location:null
+      location:null,
+      favorites: []
     };
 
     this.performAgencyAPIRequest();
+    this.getFavorites();
   }
 
   performAgencyAPIRequest() {
@@ -67,7 +69,7 @@ class Map extends Component {
   	for (var i = 0; i < this.state.routes.length; i++) {
   		let route = this.state.routes[i];
   		if(route.shortName === this.state.searchTerm) {
-  			// console.log('route.shortName',route.shortName);
+  			console.log('route.shortName',route.shortName);
   			this.setState({routeId: route.id}, this.getRouteStop);
   		}
   	}
@@ -218,14 +220,43 @@ class Map extends Component {
 		this.setState({polyLines: []});
   }
 
-  addFavorite() {
-      $.ajax({
-          method: 'POST',
-          url: '/favorites/' + this.state.searchTerm
-      }).done(function(data) {
-          console.log('favorite ajax posting');
-          window.location = './';
-      });
+  addFavorite(e) {
+  	e.preventDefault();
+  	let thisComp = this;
+    $.ajax({
+        method: 'POST',
+        url: '/favorites/' + this.state.searchTerm
+    }).done(function(data) {
+        thisComp.getFavorites();
+    });
+  }
+
+  getFavorites() {
+  	let thisComp = this;
+  	$.ajax({
+  		method: 'GET',
+  		url: '/favorites/all'
+  	}).done(function(data){
+  		thisComp.setState({
+  			favorites: data
+  		})
+  	});
+  }
+
+  handleFavoriteClick = this.handleFavoriteClick.bind(this);
+  handleFavoriteClick(bus) {
+  	this.setState({searchTerm: bus.toString()}, this.showRoute);
+  }
+
+  handleFavoriteDelete = this.handleFavoriteDelete.bind(this);
+  handleFavoriteDelete(id) {
+  	let thisComp = this;
+  	$.ajax({
+  		method: 'DELETE',
+  		url: '/favorites/' + id
+  	}).done(function(data){
+  		thisComp.getFavorites();
+  	});
   }
 
   render() {
@@ -240,9 +271,20 @@ class Map extends Component {
 	                 value={this.state.searchTerm} />
 	          <button className="btn btn-info mapbutton" type="submit">Submit</button>
 	        </form>
-	        <button className="btn btn-primary mapbutton" id="favButton" onClick={() =>
-	        				this.addFavorite(this.state.searchTerm)}>
+	        <button className="btn btn-primary mapbutton" id="favButton" onClick={(e) =>
+	        				this.addFavorite(e)}>
 	        				Add to Favorites</button>
+	        <ul>
+	        {
+	        	this.state.favorites.map((favorite, index) => (
+	        			<li key={index}>
+	        				<a onClick={() => this.handleFavoriteClick(favorite.bus)}>{favorite.bus}</a>
+	        				&nbsp;
+	        				<a onClick={() => this.handleFavoriteDelete(favorite.id)}>X</a>
+	        			</li>
+	        		))
+	        }
+	        </ul>
         </div>
         <div className="col-sm-9">
 	      	<ShowMap stops={this.state.markers} polyLines={this.state.polyLines}
