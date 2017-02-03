@@ -25,7 +25,6 @@ const browserHistory = require('react-router').browserHistory;
 						<Router history={browserHistory}>
 							<Route path="/" component={Map} />
 							<Route path="/Login" component={Login} />
-							<Route path="/Bookmarks" component={Bookmarks} />
 						</Router>
 		      </div>
 	      </div>

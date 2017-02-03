@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import bus from './img/bus.jpg';
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -27,8 +27,9 @@ displayName(e){
  render() {
    return (
    	<div className="row">
+   		<img className='bus' src={bus} />
 	    <div className="col-sm-4 col-sm-offset-1">
-		 		<h1> Sign Up </h1>
+		 		<h1> Sign Up / Login</h1>
 					<form id="signUp" action="/auth/signup" method="POST">
 					  <div className="form-group">
 					    <label htmlFor="authEmail">Email</label>
@@ -48,21 +49,13 @@ displayName(e){
 					</form>
 				</div>
 				<div className="col-sm-4 col-sm-offset-2">
-					<h1> Log In </h1>
-					<form id="login" action="/auth/login" method="POST">
-						<div className="form-group">
-						  <label htmlFor="authEmail">Email</label>
-						  <input id="authEmail" className="form-control" type="email" name="email" />
-						</div>
-
-						<div className="form-group">
-						  <label htmlFor="authPassword">Password</label>
-						  <input id="authPassword" className="form-control" type="password" name="password" />
-						</div>
-
-						<input className="btn btn-primary" type="submit" />
-					</form>
-	    </div>
+					<ul>
+						<li className="note">Please signup or login to the left so you're able to save and track your
+					 			favorite buses, routes and stops.</li>
+						<li className="note">If you are logging back in, you only need to 
+					 			input your email and password.</li>
+					</ul>
+	      </div>
     </div>
    );
  }

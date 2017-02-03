@@ -10,14 +10,6 @@ router.get('/all', function(req, res) {
     });
 });
 
-router.get('/:id', function(req, res) {
-    db.user.findById(req.user.id).then(function(user) {
-        db.favorite.findById(req.params.id).then(function(favorite) {
-            res.send(favorite);
-        });
-    });
-});
-
 router.post('/:id', function(req, res) {
     db.favorite.findOrCreate({
       where: { bus: req.params.id }
@@ -35,18 +27,6 @@ router.delete("/:id", function(req, res) {
         console.log(req.params.id);
         res.send({
             message: 'success destroying'
-        });
-    });
-});
-// DELETE BY ALL
-router.delete("/all", function(req, res) {
-    db.user.findById(req.user.id).then(function(user) {
-        db.favorite.findById(req.params.id).then(function(favorite) {
-            favorite.destroy();
-            console.log(req.params.id);
-            res.send({
-                message: 'success destroying'
-            });
         });
     });
 });
