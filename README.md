@@ -6,7 +6,8 @@ npm install
 cd client
 npm install
 cd ..
-npm start```
+npm start
+```
 
 For this project we used a wide variety of technologies and tools. On the front-end we utilized React, Bootstrap, Google Maps, Javascript, CSS and HTML. On the back end we utilized Express, Postgress and OneBusAway's API.
 
