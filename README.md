@@ -4,6 +4,8 @@ Search route to find its stops, and discover all routes for given stop. Zoom int
 
 Check it out for yourself - [Metro Trip Advisor](https://metro-trip-advisor.herokuapp.com/)!
 
+<img src="./client/src/img/screenshot.png">
+
 ## Why?
 
 To provide an easy interface for individuals to travel easy.
@@ -37,6 +39,3 @@ npm start
 ## Contact
 
 Built by [Congcong Li](https://www.linkedin.com/in/congcongli222/) and [Brian Bixby](https://www.linkedin.com/in/brianbixby1/)
-
-## Metro Trip Advisor
-<img src="./client/src/img/screenshot.png">
